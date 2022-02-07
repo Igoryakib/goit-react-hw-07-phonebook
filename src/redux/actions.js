@@ -2,14 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 import * as actionTypes from './action-types';
 
 const addContactRequest = createAction(actionTypes.ADD_CONTACT_REQUEST);
-const addContactSuccess = createAction(actionTypes.ADD_CONTACT_SUCCESS, (name, number) => {
-    return {
-        payload: {
-            name,
-            number,
-        }
-    }
-});
+const addContactSuccess = createAction(actionTypes.ADD_CONTACT_SUCCESS);
 const addContactError = createAction(actionTypes.ADD_CONTACT_ERROR);
 
 const deleteContactRequest = createAction(actionTypes.DELETE_CONTACT_REQUEST);

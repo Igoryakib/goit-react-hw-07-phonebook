@@ -10,9 +10,16 @@ const saveContact = (contact) => {
 
 const deleteContact = (contactId) => {
     return axios
-      .delete(`/contacts${contactId}`)
+      .delete(`/contacts/${contactId}`)
       .then((res) => res.data)
       .catch((err) => console.log(err));
   };
 
-export default { saveContact, deleteContact };
+const getContact = () => {
+  return axios
+  .get('/contacts')
+  .then(res => res.data)
+  .catch(err => console.log(err));
+};
+
+export default { saveContact, deleteContact, getContact};
