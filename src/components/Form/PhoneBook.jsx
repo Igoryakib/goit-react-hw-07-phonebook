@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import {addContact} from '../../redux/action-operations';
+import {getFilteredContacts, getLoading } from '../../redux/selectors';
+
 import styles from "./PhoneBook.module.scss";
 import ListContacts from "../ListContacts/ListContacts";
 import Filter from "../Filter/Filter";
-const shortid = require("shortid");
 
 class PhoneBook extends Component {
   state = {
-    contacts: [
-      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-    ],
     name: "",
     number: "",
     filter: "",
@@ -24,7 +21,7 @@ class PhoneBook extends Component {
 
   verifyData = () => {
     this.state.name.toLocaleLowerCase();
-    this.state.contacts.map((item) => {
+    this.props.contacts.map((item) => {
       item.name.toLocaleLowerCase();
       if (item.name === this.state.name || item.number === this.state.number) {
         alert(`${this.state.name} is already in contacts`);
@@ -47,25 +44,12 @@ class PhoneBook extends Component {
     event.preventDefault();
     const contact = {
       name: this.state.name,
-      id: shortid.generate(),
       number: this.state.number,
     };
-    this.setState((prevState) => {
-      return {
-        contacts: [contact, ...prevState.contacts],
-      };
-    });
+    this.props.addContact(contact);
     this.setState({
       name: "",
       number: "",
-    });
-  };
-
-  onHandleDelete = (id) => {
-    this.setState((prevState) => {
-      return {
-        contacts: prevState.contacts.filter((item) => item.id !== id),
-      };
     });
   };
 
@@ -75,10 +59,10 @@ class PhoneBook extends Component {
     const { input_form, form_add_contact, label_form, submit_btn, title_list } =
       styles;
 
-    const normalizedFilterArray = filter.toLowerCase();
-    const filteredArray = contacts.filter((item) =>
-      item.name.toLowerCase().includes(normalizedFilterArray)
-    );
+    // const normalizedFilterArray = filter.toLowerCase();
+    // const filteredArray = contacts.filter((item) =>
+    //   item.name.toLowerCase().includes(normalizedFilterArray)
+    // );
 
     return (
       <>
@@ -115,16 +99,23 @@ class PhoneBook extends Component {
         </form>
         <h2 className={title_list}>Contacts</h2>
         <div>
-          <Filter value={filter} handleOnChange={this.handleOnChange} />
-          <ListContacts
-            contacts={filteredArray}
+          <Filter/>
+          {this.props.isLoading ? <h1>Loading ...</h1> :           <ListContacts
             btnText="Delete"
-            onDeleteContact={this.onHandleDelete}
-          />
+          />}
         </div>
       </>
     );
   }
 }
 
-export default PhoneBook;
+const mapDispatchToProps = (dispatch) => ({
+    addContact: (contactObj) => (dispatch(addContact(contactObj))),
+});
+
+const mapStateToProps = (state) => ({
+  contacts: getFilteredContacts(state),
+  isLoading: getLoading(state),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhoneBook);

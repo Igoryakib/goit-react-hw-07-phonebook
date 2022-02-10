@@ -22,4 +22,4 @@ const getContact = () => {
   .catch(err => console.log(err));
 };
 
-export default { saveContact, deleteContact, getContact};
+export { saveContact, deleteContact, getContact};

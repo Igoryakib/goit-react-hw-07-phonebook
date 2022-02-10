@@ -9,11 +9,21 @@ const deleteContactRequest = createAction(actionTypes.DELETE_CONTACT_REQUEST);
 const deleteContactSuccess = createAction(actionTypes.DELETE_CONTACT_SUCCESS);
 const deleteContactError = createAction(actionTypes.DELETE_CONTACT_ERROR);
 
-export default {
+const getContactRequest = createAction(actionTypes.GET_CONTACT_REQUEST);
+const getContactSuccess = createAction(actionTypes.GET_CONTACT_SUCCESS);
+const getContactError = createAction(actionTypes.GET_CONTACT_ERROR);
+
+const filterContacts = createAction(actionTypes.FILTER_CONTACTS);
+
+export {
     addContactRequest,
     addContactSuccess,
     addContactError,
     deleteContactRequest,
     deleteContactSuccess,
-    deleteContactError
+    deleteContactError,
+    getContactRequest,
+    getContactSuccess,
+    getContactError,
+    filterContacts
 };

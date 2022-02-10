@@ -5,8 +5,15 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
+  getContactRequest,
+  getContactSuccess,
+  getContactError,
 } from "./actions";
-import { saveContact, deleteContact } from "../utils/fetchContactsAPI";
+import {
+  saveContact,
+  deleteContact,
+  getContact,
+} from "../utils/fetchContactsAPI";
 
 const addContact = (contactItem) => (dispatch) => {
   dispatch(addContactRequest());
@@ -19,10 +26,17 @@ const removeContact = (contactId) => async (dispatch) => {
   dispatch(deleteContactRequest());
   try {
     const response = await deleteContact(contactId);
-    dispatch(deleteContactSuccess(response.data));
+    dispatch(deleteContactSuccess(+response.id));
   } catch (err) {
     dispatch(deleteContactError(err));
   }
 };
 
-export default {addContact, removeContact}
+const getContactsArray = () => (dispatch) => {
+  dispatch(getContactRequest());
+  getContact()
+    .then((data) => dispatch(getContactSuccess(data)))
+    .catch((err) => dispatch(getContactError(err)));
+};
+
+export { addContact, removeContact, getContactsArray };
