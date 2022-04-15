@@ -1,6 +1,6 @@
 import axios from "axios";
 axios.defaults.baseURL =
-  "https://61fed12aa58a4e00173c99ed.mockapi.io/phoneBook";
+  "https://61fed12aa58a4e00173c99ed.mockapi.io/phonebook/";
 const saveContact = (contact) => {
   return axios
     .post("/contacts", contact)
